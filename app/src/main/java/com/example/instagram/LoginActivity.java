@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        if(ParseUser.getCurrentUser() != null){
-            goMainActivity();
-        }
+//        if(ParseUser.getCurrentUser() != null){
+//            goMainActivity();
+//        }
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +38,20 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
+
+        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick sign up button");
+                goSignUpActivity();
+
+            }
+        });
+    }
+
+    private void goSignUpActivity() {
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivity(i);
     }
 
     private void loginUser(String username, String password) {
@@ -46,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with login");
+                    Log.e(TAG, "Issue with login" + e);
                     Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
                     return;
                 }
