@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-//        if(ParseUser.getCurrentUser() != null){
-//            goMainActivity();
-//        }
+        if(ParseUser.getCurrentUser() != null){
+            goMainActivity();
+        }
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goSignUpActivity() {
         Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
+        finish();
     }
 
     private void loginUser(String username, String password) {

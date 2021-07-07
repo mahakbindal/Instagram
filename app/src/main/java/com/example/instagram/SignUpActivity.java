@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
 
                 } else {
-                    goMainActivity();
+                    goLoginActivity();
                     Log.e(TAG, "Login success: ");
                     Toast.makeText(SignUpActivity.this, "Success!", Toast.LENGTH_SHORT).show();
                 }
@@ -67,8 +67,8 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+    private void goLoginActivity() {
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
