@@ -11,6 +11,8 @@ import com.example.instagram.databinding.ActivityPostDetailsBinding;
 
 import org.parceler.Parcels;
 
+import java.util.Date;
+
 public class PostDetailsActivity extends AppCompatActivity {
 
     public static final String POST = "post";
@@ -30,5 +32,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         binding.tvDescriptionUser.setText(mPost.getUser().getUsername());
         binding.tvPostDescription.setText(mPost.getDescription());
         Glide.with(this).load(mPost.getImage().getUrl()).into(binding.ivPost);
+
+        Date createdAt = mPost.getCreatedAt();
+        String timeAgo = Post.calculateTimeAgo(createdAt);
+        binding.tvCreatedAt.setText(timeAgo);
     }
 }
