@@ -1,42 +1,60 @@
-package com.example.instagram;
+package com.example.instagram.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.example.instagram.databinding.ActivityFeedBinding;
+import com.example.instagram.MainActivity;
+import com.example.instagram.Post;
+import com.example.instagram.PostsAdapter;
+import com.example.instagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import org.json.JSONArray;
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity{
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class PostsFragment extends Fragment {
 
-    public static final String TAG = "FeedActivity";
-
-    protected PostsAdapter mAdapter;
+    public static final String TAG = "PostsFragment";
+    private RecyclerView mRvPosts;
+    private PostsAdapter mAdapter;
     protected List<Post> mAllPosts;
     private SwipeRefreshLayout swipeContainer;
 
+    public PostsFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityFeedBinding binding = ActivityFeedBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_posts, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRvPosts = view.findViewById(R.id.rvPosts);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -54,10 +72,11 @@ public class FeedActivity extends AppCompatActivity{
                 android.R.color.holo_red_light);
 
         mAllPosts = new ArrayList<>();
-        mAdapter = new PostsAdapter(this, mAllPosts);
+        mAdapter = new PostsAdapter(getContext(), mAllPosts);
 
-        binding.rvPosts.setAdapter(mAdapter);
-        binding.rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        mRvPosts.setAdapter(mAdapter);
+        mRvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
         queryPosts();
     }
 
@@ -68,35 +87,24 @@ public class FeedActivity extends AppCompatActivity{
     }
 
     private void queryPosts() {
-        // specify what type of data we want to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        // include data referred by user key
+        // Specify the object id
         query.include(Post.KEY_USER);
-        // limit query to latest 20 items
-        query.setLimit(20);
-        // order posts by creation date (newest first)
-        query.addDescendingOrder("createdAt");
-        // start an asynchronous call for posts
+        query.setLimit(10);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
-                // check for errors
-                if (e != null) {
+                if(e != null){
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-
-                // for debugging purposes let's print every post description to logcat
-                for (Post post : posts) {
+                for(Post post : posts){
                     Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
-
-                // save received posts to list and notify adapter of new data
                 mAllPosts.addAll(posts);
                 mAdapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
             }
         });
     }
-
 }
