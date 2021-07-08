@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,11 +15,12 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements PostsAdapter.ViewHolder.OnPostListener{
 
     public static final String TAG = "FeedActivity";
 
@@ -52,7 +54,7 @@ public class FeedActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
         mAllPosts = new ArrayList<>();
-        mAdapter = new PostsAdapter(this, mAllPosts);
+        mAdapter = new PostsAdapter(this, mAllPosts, this);
 
         binding.rvPosts.setAdapter(mAdapter);
         binding.rvPosts.setLayoutManager(new LinearLayoutManager(this));
@@ -95,5 +97,13 @@ public class FeedActivity extends AppCompatActivity {
                 swipeContainer.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onPostClick(int position) {
+        Post post = mAllPosts.get(position);
+        Intent intent = new Intent(this, PostDetailsActivity.class);
+        intent.putExtra("post", Parcels.wrap(post));
+        startActivity(intent);
     }
 }
