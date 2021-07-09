@@ -23,6 +23,8 @@ import java.util.List;
 public class FeedActivity extends AppCompatActivity{
 
     public static final String TAG = "FeedActivity";
+    public static final int LIMIT = 20;
+    public static final int PAGE = 0;
 
     protected PostsAdapter mAdapter;
     protected List<Post> mAllPosts;
@@ -44,7 +46,7 @@ public class FeedActivity extends AppCompatActivity{
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                fetchTimelineAsync(0);
+                fetchTimelineAsync(PAGE);
             }
         });
         // Configure the refreshing colors
@@ -73,7 +75,7 @@ public class FeedActivity extends AppCompatActivity{
         // include data referred by user key
         query.include(Post.KEY_USER);
         // limit query to latest 20 items
-        query.setLimit(20);
+        query.setLimit(LIMIT);
         // order posts by creation date (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         // start an asynchronous call for posts

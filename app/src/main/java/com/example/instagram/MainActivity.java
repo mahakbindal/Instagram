@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.logout) {
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser();
-            // TODO FIX STRING
             Toast.makeText(this, R.string.logout, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

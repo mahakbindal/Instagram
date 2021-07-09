@@ -16,4 +16,9 @@
     <string name="login_issue">Issue with sign up</string>
     <string name="success">Success!</string>
     <string name="logout">Logged out!</string>
+    <string name="no_picture">Picture was not taken!</string>
+    <string name="no_description">Description cannot be empty</string>
+    <string name="no_image">There is no image!</string>
+    <string name="save_error">Error while saving</string>
+    <string name="empty"></string>
 </resources>

@@ -44,6 +44,7 @@ import static android.app.Activity.RESULT_OK;
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";
+    public static final String AUTHORITY = "com.codepath.fileprovider";
     public String photoFileName = "photo.jpg";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
 
@@ -76,11 +77,11 @@ public class ComposeFragment extends Fragment {
             public void onClick(View v) {
                 String description = mBinding.etDescription.getText().toString();
                 if (description.isEmpty()) {
-                    Toast.makeText(getContext(), "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.no_description, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mPhotoFile == null || mBinding.ivPostImage.getDrawable() == null) {
-                    Toast.makeText(getContext(), "There is no image!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.no_image, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -106,7 +107,7 @@ public class ComposeFragment extends Fragment {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", mPhotoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), AUTHORITY, mPhotoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -128,7 +129,7 @@ public class ComposeFragment extends Fragment {
                 // Load the taken image into a preview
                 mBinding.ivPostImage.setImageBitmap(takenImage);
             } else { // Result was a failure
-                Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.no_picture, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -162,10 +163,10 @@ public class ComposeFragment extends Fragment {
             public void done(ParseException e) {
                 if(e != null){
                     Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!");
-                mBinding.etDescription.setText("");
+                mBinding.etDescription.setText(R.string.empty);
                 mBinding.ivPostImage.setImageResource(0);
                 ((MainActivity)getActivity()).postTransition();
                 //end load
