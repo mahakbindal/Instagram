@@ -2,4 +2,17 @@
     <string name="app_name">Instagram</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="just_now">just now</string>
+    <string name="one_minute">a minute ago</string>
+    <string name="minutes"> minutes ago</string>
+    <string name="one_hour">an hour ago</string>
+    <string name="hours"> hours ago</string>
+    <string name="yesterday">yesterday</string>
+    <string name="days"> days ago</string>
+
+    <string name="empty_field">A field is empty</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="signup_issue">Issue with sign up</string>
+    <string name="login_issue">Issue with sign up</string>
+    <string name="success">Success!</string>
 </resources>

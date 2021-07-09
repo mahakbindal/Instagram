@@ -31,11 +31,11 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = binding.etPasswordSignUp.getText().toString();
                 String confirmPassword = binding.etConfirmPassword.getText().toString();
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(SignUpActivity.this, "A field is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.empty_field, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(!password.equals(confirmPassword)){
-                    Toast.makeText(SignUpActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.password_mismatch, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 signUpUser(username, password);
@@ -54,13 +54,13 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with login");
-                    Toast.makeText(SignUpActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.signup_issue, Toast.LENGTH_SHORT).show();
                     return;
 
                 } else {
                     goLoginActivity();
                     Log.e(TAG, "Login success: ");
-                    Toast.makeText(SignUpActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.success, Toast.LENGTH_SHORT).show();
                 }
 
             }
