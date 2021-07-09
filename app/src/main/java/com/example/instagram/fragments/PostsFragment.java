@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.instagram.EndlessRecyclerViewScrollListener;
 import com.example.instagram.MainActivity;
 import com.example.instagram.Post;
 import com.example.instagram.PostsAdapter;
@@ -25,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,9 @@ import java.util.List;
 public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";
+    public static final String CREATED_AT = "createdAt";
+
+    private EndlessRecyclerViewScrollListener mScrollListener;
     private FragmentPostsBinding mBinding;
     private PostsAdapter mAdapter;
     protected List<Post> mAllPosts;
@@ -76,9 +81,46 @@ public class PostsFragment extends Fragment {
         mAdapter = new PostsAdapter(getContext(), mAllPosts);
 
         mBinding.rvPosts.setAdapter(mAdapter);
-        mBinding.rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mBinding.rvPosts.setLayoutManager(linearLayoutManager);
+
+        mScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                Date createdAt = mAllPosts.get(mAllPosts.size() - 1).getCreatedAt();
+                loadNextDataFromApi(page, createdAt);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        mBinding.rvPosts.addOnScrollListener(mScrollListener);
 
         queryPosts();
+    }
+
+    private void loadNextDataFromApi(int page, Date createdAt) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(5);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.whereLessThan(CREATED_AT, createdAt);
+
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if(e != null){
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                for(Post post : posts){
+                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+                }
+                mAllPosts.addAll(posts);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     private void fetchTimelineAsync(int page) {
@@ -91,7 +133,8 @@ public class PostsFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // Specify the object id
         query.include(Post.KEY_USER);
-        query.setLimit(10);
+        // TODO SWITCH TO 20!!!!!
+        query.setLimit(5);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override

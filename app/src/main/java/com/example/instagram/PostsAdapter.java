@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.util.Date;
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
@@ -84,6 +85,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView mTvDescription;
         private ImageView mIvProfilePic;
         private TextView mTvUsernameDesc;
+        private TextView mTvPostCreatedAt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +94,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mTvDescription = itemView.findViewById(R.id.tvDescription);
             mIvProfilePic = itemView.findViewById(R.id.ivProfilePic);
             mTvUsernameDesc = itemView.findViewById(R.id.tvUsernameDesc);
+            mTvPostCreatedAt = itemView.findViewById(R.id.tvPostCreatedAt);
         }
 
         public void bind(Post post) {
@@ -108,6 +111,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if(profilePic != null){
                 Glide.with(mContext).load(profilePic.getUrl()).into(mIvProfilePic);
             }
+
+            Date createdAt = post.getCreatedAt();
+            String timeAgo = Post.calculateTimeAgo(createdAt);
+            mTvPostCreatedAt.setText(timeAgo);
         }
     }
 }
