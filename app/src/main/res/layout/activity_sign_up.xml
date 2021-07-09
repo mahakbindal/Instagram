@@ -6,21 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
+    <ImageView
+        android:id="@+id/igLogo2"
+        android:layout_width="339dp"
+        android:layout_height="199dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="20dp"
+        app:srcCompat="@mipmap/instagram_logo_foreground" />
+
     <EditText
         android:id="@+id/etUsernameSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/igLogo2"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="154dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="username"
+        android:hint="Username"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="119dp" />
+        tools:layout_editor_absoluteY="119dp"
+        android:textSize="14sp"/>
 
     <EditText
         android:id="@+id/etPasswordSignUp"
@@ -28,40 +43,49 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etUsernameSignUp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/etUsernameSignUp"
-        tools:layout_editor_absoluteX="77dp" />
+        tools:layout_editor_absoluteX="77dp"
+        android:textSize="14sp"/>
 
     <EditText
         android:id="@+id/etConfirmPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPasswordSignUp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="confirm password"
+        android:hint="Re-enter Password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordSignUp"
         tools:layout_editor_absoluteX="77dp"
-        tools:layout_marginEnd="100dp" />
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/btnSignUpConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etConfirmPassword"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Sign Up"
         app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword"
-        tools:layout_editor_absoluteX="137dp" />
+        tools:layout_editor_absoluteX="137dp"
+        android:backgroundTint="#458eff"/>
 </RelativeLayout>
