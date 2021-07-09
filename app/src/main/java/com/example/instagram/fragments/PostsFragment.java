@@ -86,7 +86,7 @@ public class PostsFragment extends Fragment {
         swipeContainer.setRefreshing(false);
     }
 
-    private void queryPosts() {
+    protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // Specify the object id
         query.include(Post.KEY_USER);

@@ -48,14 +48,4 @@
         android:layout_marginTop="5dp"
         android:text="Submit" />
 
-    <Button
-        android:id="@+id/btnFeed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnSubmit"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:layout_marginBottom="270dp"
-        android:text="Feed" />
-
 </RelativeLayout>

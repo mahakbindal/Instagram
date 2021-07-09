@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.instagram.databinding.ActivityMainBinding;
 import com.example.instagram.fragments.ComposeFragment;
 import com.example.instagram.fragments.PostsFragment;
+import com.example.instagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -49,17 +50,6 @@ public class MainActivity extends AppCompatActivity {
         View view = mBinding.getRoot();
         setContentView(view);
 
-//        queryPosts();
-
-
-
-//        mBinding.btnFeed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                goFeedActivity();
-//            }
-//        });
-
         mBinding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -76,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_profile:
                     default:
                         Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        fragment = new ComposeFragment();
+                        fragment = new ProfileFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
@@ -89,12 +79,6 @@ public class MainActivity extends AppCompatActivity {
     public void postTransition(){
         fragmentManager.beginTransaction().replace(R.id.flContainer, new PostsFragment()).commit();
         mBinding.bottomNavigation.setSelectedItemId(R.id.action_home);
-    }
-
-    private void goFeedActivity() {
-        Intent i = new Intent(this, FeedActivity.class);
-        startActivity(i);
-        finish();
     }
 
 
