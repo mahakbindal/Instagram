@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.instagram.MainActivity;
 import com.example.instagram.Post;
 import com.example.instagram.R;
+import com.example.instagram.databinding.FragmentComposeBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -43,23 +44,12 @@ import static android.app.Activity.RESULT_OK;
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
-    private EditText etDescription;
-    private Button btnCaptureImage;
-    private ImageView ivPostImage;
-    private Button btnSubmit;
-
-    private File photoFile;
     public String photoFileName = "photo.jpg";
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentComposeBinding mBinding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private File mPhotoFile;
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -71,7 +61,8 @@ public class ComposeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_compose, container, false);
+        mBinding = FragmentComposeBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     // This event is triggered soon after onCreateView().
@@ -80,30 +71,25 @@ public class ComposeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etDescription = view.findViewById(R.id.etDescription);
-        btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
-        ivPostImage = view.findViewById(R.id.ivPostImage);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String description = etDescription.getText().toString();
+                String description = mBinding.etDescription.getText().toString();
                 if (description.isEmpty()) {
                     Toast.makeText(getContext(), "Description cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (photoFile == null || ivPostImage.getDrawable() == null) {
+                if (mPhotoFile == null || mBinding.ivPostImage.getDrawable() == null) {
                     Toast.makeText(getContext(), "There is no image!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description, currentUser, photoFile);
+                savePost(description, currentUser, mPhotoFile);
 
             }
         });
 
-        btnCaptureImage.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchCamera();
@@ -115,12 +101,12 @@ public class ComposeFragment extends Fragment {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
-        photoFile = getPhotoFileUri(photoFileName);
+        mPhotoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", mPhotoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -137,10 +123,10 @@ public class ComposeFragment extends Fragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
-                ivPostImage.setImageBitmap(takenImage);
+                mBinding.ivPostImage.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -179,8 +165,8 @@ public class ComposeFragment extends Fragment {
                     Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!");
-                etDescription.setText("");
-                ivPostImage.setImageResource(0);
+                mBinding.etDescription.setText("");
+                mBinding.ivPostImage.setImageResource(0);
                 ((MainActivity)getActivity()).postTransition();
                 //end load
             }

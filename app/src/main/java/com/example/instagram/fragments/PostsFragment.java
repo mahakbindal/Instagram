@@ -18,6 +18,8 @@ import com.example.instagram.MainActivity;
 import com.example.instagram.Post;
 import com.example.instagram.PostsAdapter;
 import com.example.instagram.R;
+import com.example.instagram.databinding.FragmentComposeBinding;
+import com.example.instagram.databinding.FragmentPostsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -31,32 +33,31 @@ import java.util.List;
 public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";
-    private RecyclerView mRvPosts;
+    private FragmentPostsBinding mBinding;
     private PostsAdapter mAdapter;
     protected List<Post> mAllPosts;
-    private SwipeRefreshLayout swipeContainer;
+    private SwipeRefreshLayout mSwipeContainer;
 
     public PostsFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false);
+        mBinding = FragmentPostsBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRvPosts = view.findViewById(R.id.rvPosts);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Your code to refresh the list here.
@@ -66,7 +67,7 @@ public class PostsFragment extends Fragment {
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -74,8 +75,8 @@ public class PostsFragment extends Fragment {
         mAllPosts = new ArrayList<>();
         mAdapter = new PostsAdapter(getContext(), mAllPosts);
 
-        mRvPosts.setAdapter(mAdapter);
-        mRvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.rvPosts.setAdapter(mAdapter);
+        mBinding.rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         queryPosts();
     }
@@ -83,7 +84,7 @@ public class PostsFragment extends Fragment {
     private void fetchTimelineAsync(int page) {
         mAdapter.clear();
         queryPosts();
-        swipeContainer.setRefreshing(false);
+        mSwipeContainer.setRefreshing(false);
     }
 
     protected void queryPosts() {

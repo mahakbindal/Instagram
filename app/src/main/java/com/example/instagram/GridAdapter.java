@@ -45,17 +45,17 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView ivGridImage;
+        private ImageView mIvGridImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivGridImage = itemView.findViewById(R.id.ivGridImage);
+            mIvGridImage = itemView.findViewById(R.id.ivGridImage);
         }
 
         public void bind(Post post) {
             ParseFile image = post.getImage();
             if(image != null){
-                Glide.with(mContext).load(image.getUrl()).into(ivGridImage);
+                Glide.with(mContext).load(image.getUrl()).into(mIvGridImage);
             }
         }
     }

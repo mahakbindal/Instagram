@@ -22,28 +22,29 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
     public static final String TAG = "PostsAdapter";
-    static Context context;
-    private List<Post> posts;
+    public static final String POST = "post";
+    static Context mContext;
+    private List<Post> mPosts;
 
     public PostsAdapter(Context context, List<Post> posts) {
-        this.context = context;
-        this.posts = posts;
+        this.mContext = context;
+        this.mPosts = posts;
     }
 
     @NonNull
     @Override
     public PostsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_post, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "See posts: " + posts.toString());
+                Log.i(TAG, "See posts: " + mPosts.toString());
                 Log.i(TAG, "Recycler view position: " + viewHolder.getAdapterPosition());
-                Post post = posts.get(viewHolder.getAdapterPosition());
-                Intent intent = new Intent(context, PostDetailsActivity.class);
-                intent.putExtra("post", Parcels.wrap(post));
-                context.startActivity(intent);
+                Post post = mPosts.get(viewHolder.getAdapterPosition());
+                Intent intent = new Intent(mContext, PostDetailsActivity.class);
+                intent.putExtra(POST, Parcels.wrap(post));
+                mContext.startActivity(intent);
             }
         });
 
@@ -52,24 +53,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull PostsAdapter.ViewHolder holder, int position) {
-        Post post = posts.get(position);
+        Post post = mPosts.get(position);
         holder.bind(post);
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return mPosts.size();
     }
 
     // Clean all elements of the recycler
     public void clear() {
-        posts.clear();
+        mPosts.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
     public void addAll(List<Post> list) {
-        posts.addAll(list);
+        mPosts.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -92,7 +93,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvUsername.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if(image != null){
-                Glide.with(context).load(image.getUrl()).into(ivImage);
+                Glide.with(mContext).load(image.getUrl()).into(ivImage);
             }
         }
     }

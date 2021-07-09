@@ -26,7 +26,7 @@ public class FeedActivity extends AppCompatActivity{
 
     protected PostsAdapter mAdapter;
     protected List<Post> mAllPosts;
-    private SwipeRefreshLayout swipeContainer;
+    private SwipeRefreshLayout mSwipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,9 @@ public class FeedActivity extends AppCompatActivity{
         setContentView(view);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Your code to refresh the list here.
@@ -48,7 +48,7 @@ public class FeedActivity extends AppCompatActivity{
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -64,7 +64,7 @@ public class FeedActivity extends AppCompatActivity{
     private void fetchTimelineAsync(int page) {
         mAdapter.clear();
         queryPosts();
-        swipeContainer.setRefreshing(false);
+        mSwipeContainer.setRefreshing(false);
     }
 
     private void queryPosts() {
@@ -75,7 +75,7 @@ public class FeedActivity extends AppCompatActivity{
         // limit query to latest 20 items
         query.setLimit(20);
         // order posts by creation date (newest first)
-        query.addDescendingOrder("createdAt");
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
         // start an asynchronous call for posts
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -94,7 +94,7 @@ public class FeedActivity extends AppCompatActivity{
                 // save received posts to list and notify adapter of new data
                 mAllPosts.addAll(posts);
                 mAdapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
+                mSwipeContainer.setRefreshing(false);
             }
         });
     }

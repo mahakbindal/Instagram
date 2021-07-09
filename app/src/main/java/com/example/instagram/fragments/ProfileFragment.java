@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.instagram.GridAdapter;
 import com.example.instagram.Post;
 import com.example.instagram.R;
+import com.example.instagram.databinding.FragmentComposeBinding;
+import com.example.instagram.databinding.FragmentProfileBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,12 +36,9 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
-    private ImageView ivProfilePicture;
-    private TextView tvProfileUser;
-
-    private RecyclerView rvPosts;
-    GridLayoutManager gridLayoutManager;
-    GridAdapter adapter;
+    private FragmentProfileBinding mBinding;
+    GridLayoutManager mGridLayoutManager;
+    GridAdapter mAdapter;
 
 
     protected List<Post> mAllPosts;
@@ -52,28 +51,25 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        mBinding = FragmentProfileBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvPosts = view.findViewById(R.id.rvPosts);
-        tvProfileUser = view.findViewById(R.id.tvProfileUser);
-        ivProfilePicture = view.findViewById(R.id.ivProfilePicture);
-
         mAllPosts = new ArrayList<>();
-        adapter = new GridAdapter(getContext(), mAllPosts);
+        mAdapter = new GridAdapter(getContext(), mAllPosts);
 
-        gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(gridLayoutManager);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mBinding.rvPosts.setAdapter(mAdapter);
+        mBinding.rvPosts.setLayoutManager(mGridLayoutManager);
 
-        tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
+        mBinding.tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
         ParseFile profilePic = ParseUser.getCurrentUser().getParseFile("profilePic");
         if(profilePic != null){
-            Glide.with(this).load(profilePic.getUrl()).into(ivProfilePicture);
+            Glide.with(this).load(profilePic.getUrl()).into(mBinding.ivProfilePicture);
         }
 
         queryPosts();
@@ -88,7 +84,7 @@ public class ProfileFragment extends Fragment {
         query.setLimit(20);
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         // order posts by creation date (newest first)
-        query.addDescendingOrder("createdAt");
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
         // start an asynchronous call for posts
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -106,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
                 // save received posts to list and notify adapter of new data
                 mAllPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
