@@ -36,6 +36,7 @@ public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";
     public static final String CREATED_AT = "createdAt";
+    public static final int LIMIT = 20;
 
     private EndlessRecyclerViewScrollListener mScrollListener;
     private FragmentPostsBinding mBinding;
@@ -135,8 +136,7 @@ public class PostsFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // Specify the object id
         query.include(Post.KEY_USER);
-        // TODO SWITCH TO 20!!!!!
-        query.setLimit(5);
+        query.setLimit(LIMIT);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override

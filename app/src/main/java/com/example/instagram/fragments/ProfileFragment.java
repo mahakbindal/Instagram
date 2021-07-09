@@ -37,6 +37,11 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     public static final String PROFILE_PIC = "profilePic";
+    public static final String FOLLOWERS = "Followers";
+    public static final String FOLLOWING = "Following";
+    public static final int LIMIT = 20;
+    public static final int GRID_COUNT = 3;
+    public int TOTAL_POSTS;
 
     private FragmentProfileBinding mBinding;
     GridLayoutManager mGridLayoutManager;
@@ -64,17 +69,23 @@ public class ProfileFragment extends Fragment {
         mAllPosts = new ArrayList<>();
         mAdapter = new GridAdapter(getContext(), mAllPosts);
 
-        mGridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mGridLayoutManager = new GridLayoutManager(getContext(), GRID_COUNT);
         mBinding.rvPosts.setAdapter(mAdapter);
         mBinding.rvPosts.setLayoutManager(mGridLayoutManager);
 
         mBinding.tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
+        mBinding.tvFollowers.setText(ParseUser.getCurrentUser().getString(FOLLOWERS));
+        mBinding.tvFollowing.setText(ParseUser.getCurrentUser().getString(FOLLOWING));
+
+        Log.i(TAG, "Number of posts: " + mAllPosts.size());
+
         ParseFile profilePic = ParseUser.getCurrentUser().getParseFile(PROFILE_PIC);
         if(profilePic != null){
-            Glide.with(this).load(profilePic.getUrl()).into(mBinding.ivProfilePicture);
+            Glide.with(this).load(profilePic.getUrl()).circleCrop().into(mBinding.ivProfilePicture);
         }
 
         queryPosts();
+//        mBinding.tvNumPosts.setText(String.valueOf(mAllPosts.size()));
     }
 
     private void queryPosts() {
@@ -83,7 +94,7 @@ public class ProfileFragment extends Fragment {
         // include data referred by user key
         query.include(Post.KEY_USER);
         // limit query to latest 20 items
-        query.setLimit(20);
+        query.setLimit(LIMIT);
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         // order posts by creation date (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
@@ -97,13 +108,10 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
 
-                // for debugging purposes let's print every post description to logcat
-                for (Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-
                 // save received posts to list and notify adapter of new data
                 mAllPosts.addAll(posts);
+                TOTAL_POSTS = mAllPosts.size();
+                mBinding.tvNumPosts.setText(String.valueOf(mAllPosts.size()));
                 mAdapter.notifyDataSetChanged();
             }
         });

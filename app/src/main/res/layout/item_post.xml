@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/ibLike"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@+id/ivImage"
         android:layout_alignParentStart="true"
         android:layout_marginStart="3dp"
         android:layout_marginTop="2dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:background="@color/white"
         app:srcCompat="@mipmap/heart_foreground" />
 
     <TextView
@@ -52,9 +54,7 @@
         android:layout_below="@+id/ivProfilePic"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
         android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -82,22 +82,28 @@
 
     <ImageButton
         android:id="@+id/ibComment"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@+id/ivImage"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ibLike"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:scaleType="centerInside"
         app:srcCompat="@mipmap/comment_foreground" />
 
     <ImageButton
         android:id="@+id/ibDirectMessage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@+id/ivImage"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ibComment"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:scaleType="centerInside"
         app:srcCompat="@mipmap/direct_message_foreground" />
 
     <TextView

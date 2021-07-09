@@ -109,7 +109,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             ParseFile profilePic = post.getUser().getParseFile(PROFILE_PIC);
             if(profilePic != null){
-                Glide.with(mContext).load(profilePic.getUrl()).into(mIvProfilePic);
+                Glide.with(mContext).load(profilePic.getUrl()).circleCrop().into(mIvProfilePic);
             }
 
             Date createdAt = post.getCreatedAt();

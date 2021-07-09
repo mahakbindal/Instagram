@@ -15,4 +15,5 @@
     <string name="signup_issue">Issue with sign up</string>
     <string name="login_issue">Issue with sign up</string>
     <string name="success">Success!</string>
+    <string name="logout">Logged out!</string>
 </resources>

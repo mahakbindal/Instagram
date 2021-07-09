@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivProfilePicture"
         android:textSize="24sp"
@@ -31,11 +31,11 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/ivProfilePicture"
+        android:layout_below="@+id/btnEditProfile"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="-2dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="-1dp"
         android:background="#c0c0c0" />
 
@@ -49,5 +49,86 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="1dp" />
+
+    <TextView
+        android:id="@+id/tvNumPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProfileUser"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/ivProfilePicture"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/tvFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProfileUser"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/tvNumPosts"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/tvFollowing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProfileUser"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/tvFollowers"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNumPosts"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="-3dp"
+        android:layout_toEndOf="@+id/ivProfilePicture"
+        android:text="posts" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFollowers"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="-3dp"
+        android:layout_toEndOf="@+id/textView3"
+        android:text="followers" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFollowing"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-3dp"
+        android:layout_toEndOf="@+id/textView4"
+        android:text="following" />
+
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView4"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/ivProfilePicture"
+        android:text="Edit Profile"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black" />
 
 </RelativeLayout>

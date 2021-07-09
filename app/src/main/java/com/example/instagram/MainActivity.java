@@ -95,9 +95,10 @@ public class MainActivity extends AppCompatActivity {
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser();
             // TODO FIX STRING
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.logout, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
