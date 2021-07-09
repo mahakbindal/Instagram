@@ -1,6 +1,8 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,14 @@ import com.bumptech.glide.Glide;
 import com.parse.Parse;
 import com.parse.ParseFile;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
+
+    public static final String TAG = "GridAdapter";
+    public static final String POST = "post";
 
     private Context mContext;
     private List<Post> mPosts;
@@ -29,7 +36,20 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_grid, parent, false);
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "See posts: " + mPosts.toString());
+                Log.i(TAG, "Recycler view position: " + viewHolder.getAdapterPosition());
+                Post post = mPosts.get(viewHolder.getAdapterPosition());
+                Intent intent = new Intent(mContext, PostDetailsActivity.class);
+                intent.putExtra(POST, Parcels.wrap(post));
+                mContext.startActivity(intent);
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override

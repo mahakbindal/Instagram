@@ -24,6 +24,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public static final String TAG = "PostsAdapter";
     public static final String POST = "post";
+    public static final String PROFILE_PIC = "profilePic";
+
     static Context mContext;
     private List<Post> mPosts;
 
@@ -102,7 +104,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Glide.with(mContext).load(image.getUrl()).into(mIvImage);
             }
 
-            ParseFile profilePic = post.getUser().getParseFile("profilePic");
+            ParseFile profilePic = post.getUser().getParseFile(PROFILE_PIC);
             if(profilePic != null){
                 Glide.with(mContext).load(profilePic.getUrl()).into(mIvProfilePic);
             }

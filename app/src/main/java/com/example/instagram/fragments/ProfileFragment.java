@@ -36,6 +36,8 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
+    public static final String PROFILE_PIC = "profilePic";
+
     private FragmentProfileBinding mBinding;
     GridLayoutManager mGridLayoutManager;
     GridAdapter mAdapter;
@@ -67,7 +69,7 @@ public class ProfileFragment extends Fragment {
         mBinding.rvPosts.setLayoutManager(mGridLayoutManager);
 
         mBinding.tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
-        ParseFile profilePic = ParseUser.getCurrentUser().getParseFile("profilePic");
+        ParseFile profilePic = ParseUser.getCurrentUser().getParseFile(PROFILE_PIC);
         if(profilePic != null){
             Glide.with(this).load(profilePic.getUrl()).into(mBinding.ivProfilePicture);
         }
