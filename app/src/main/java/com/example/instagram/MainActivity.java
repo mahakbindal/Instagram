@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     final FragmentManager mFragmentManager = getSupportFragmentManager();
     ActivityMainBinding mBinding;
+    MenuItem mMiActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
         mBinding.bottomNavigation.setSelectedItemId(R.id.action_home);
     }
 
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mMiActionProgressItem = menu.findItem(R.id.miActionProgress);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,11 +94,22 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.logout) {
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser();
+            // TODO FIX STRING
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        mMiActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        mMiActionProgressItem.setVisible(false);
     }
 }

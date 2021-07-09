@@ -100,6 +100,7 @@ public class PostsFragment extends Fragment {
     }
 
     private void loadNextDataFromApi(int page, Date createdAt) {
+        ((MainActivity)getActivity()).showProgressBar();
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(5);
@@ -109,6 +110,7 @@ public class PostsFragment extends Fragment {
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
+                ((MainActivity)getActivity()).hideProgressBar();
                 if(e != null){
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
